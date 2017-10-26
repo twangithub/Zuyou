@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_task"
+        icon="@mipmap/ic_recents"
+        title="任务" />
+    <tab
+        id="@+id/tab_cash"
+        icon="@mipmap/ic_favorites"
+        title="收银" />
+    <tab
+        id="@+id/tab_clock"
+        icon="@mipmap/ic_restaurants"
+        title="排钟" />
+    <tab
+        id="@+id/tab_circle"
+        icon="@mipmap/ic_nearby"
+        title="足友圈" />
+    <tab
+        id="@+id/tab_my"
+        icon="@mipmap/ic_friends"
+        title="我的" />
+</tabs>
