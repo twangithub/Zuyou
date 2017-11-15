@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="5dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/des"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="text"
+        android:layout_marginRight="5dp"/>
+
+    <View
+        android:id="@+id/indicator"
+        android:paddingRight="2dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="5dp"
+        android:layout_height="48dp"
+        android:background="@color/colorAccent"/>
+</RelativeLayout>

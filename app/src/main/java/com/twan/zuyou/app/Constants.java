@@ -12,10 +12,12 @@ public class Constants {
     public static final String FR2_COLOR="#5D4037";
     public static final String FR3_COLOR="#FF9800";
 
-    public static final String PATH_DATA = App.getInstance().getCacheDir().getAbsolutePath() + File.separator + "data";
+    public static final String PATH_DATA = App.getInstance().getCacheDir().getAbsolutePath() + File.separator + "zynetwork";
 
     public static final String PATH_CACHE = PATH_DATA + "/NetCache";
 
     public static final String PATH_SDCARD = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "twan" + File.separator + "zuyou";
 
+
+    public static final int CLOCK_LEFT_BAR_ROOM = 1;
 }

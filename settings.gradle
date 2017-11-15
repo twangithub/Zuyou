@@ -1,1 +1,1 @@
-include ':app', ':xutils', ':bottom-bar', ':swipebacklayout'
+include ':app', ':bottom-bar', ':swipebacklayout', ':mylibary'

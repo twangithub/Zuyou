@@ -4,55 +4,59 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.MenuItem;import android.view.MotionEvent;
+import android.view.View;
+import android.widget.PopupWindow;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.jaeger.library.StatusBarUtil;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.squareup.haha.perflib.Main;
 import com.twan.zuyou.R;
 import com.twan.zuyou.adapter.IndicateAdapter;
 import com.twan.zuyou.app.App;
 import com.twan.zuyou.app.BaseActivity;
 import com.twan.zuyou.app.Constants;
-import com.twan.zuyou.fragment.CashFragment;
-import com.twan.zuyou.fragment.CircleFragment;
-import com.twan.zuyou.fragment.ClockFragment;
-import com.twan.zuyou.fragment.MyFragment;
-import com.twan.zuyou.fragment.TaskFargment;
-
-import org.xutils.router.Router;
-import org.xutils.view.annotation.ViewInject;
+import com.twan.zuyou.fragment.main.CashFragment;
+import com.twan.zuyou.fragment.main.CircleFragment;
+import com.twan.zuyou.fragment.main.ClockFragment;
+import com.twan.zuyou.fragment.main.MyFragment;
+import com.twan.zuyou.fragment.main.TaskFargment;import com.twan.zuyou.widget.CustomPopWindow;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List;import butterknife.BindView;import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @ViewInject(R.id.bottomBar) BottomBar bottomBar;
-    @ViewInject(R.id.fab_action_net) FloatingActionButton fab_action_net;
+    @BindView(R.id.bottomBar) BottomBar bottomBar;
+    @BindView(R.id.fab_action_1) FloatingActionButton fab_action_1;
+    @BindView(R.id.fab_action_2) FloatingActionButton fab_action_2;
+    @BindView(R.id.mainboard) View mainboard;
+    @BindView(R.id.multiple_actions) FloatingActionsMenu fab;
     List<Fragment> views = new ArrayList<>();
+    public static MainActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance=this;
         setSwipeBackEnable(false);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
+        StatusBarUtil.setColor(MainActivity.this, Color.parseColor(Constants.FR1_COLOR));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -84,18 +88,23 @@ public class MainActivity extends BaseActivity
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
                     case R.id.tab_task:
+                        currTab(0);
                         viewpager.setCurrentItem(0, true);
                         break;
                     case R.id.tab_cash:
+                        currTab(1);
                         viewpager.setCurrentItem(1, true);
                         break;
                     case R.id.tab_clock:
+                        currTab(2);
                         viewpager.setCurrentItem(2, true);
                         break;
                     case R.id.tab_circle:
+                        currTab(3);
                         viewpager.setCurrentItem(3, true);
                         break;
                     case R.id.tab_my:
+                        currTab(4);
                         viewpager.setCurrentItem(4, true);
                         break;
                 }
@@ -133,6 +142,41 @@ public class MainActivity extends BaseActivity
             }
         });
 
+    }
+
+    @OnClick(R.id.fab_action_1)
+    public void onFabActionNetClick(View view){
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_clock_arrange,null);
+        //处理popWindow 显示内容
+        //handleLogic(contentView);
+        //创建并显示popWindow
+         new CustomPopWindow.PopupWindowBuilder(this)
+                .setView(contentView)
+                .enableBackgroundDark(true) //弹出popWindow时，背景是否变暗
+                .setBgDarkAlpha(0.8f) // 控制亮度
+                .setOnDissmissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        Log.e("TAG","onDismiss");
+                    }
+                })
+                .create()
+
+                //.showAsDropDown(mButton5,0,20);
+                .showAtLocation(mainboard, Gravity.CENTER,0,0);
+    }
+
+    private void currTab(int itemId){
+        if (itemId == 2){
+            //fab_action_1=(FloatingActionButton)findViewById(R.id.fab_action_1);
+            //fab_action_2=(FloatingActionButton)findViewById(R.id.fab_action_2);
+            //fab_action_1.setVisibility(View.GONE);
+            //fab_action_2.setVisibility(View.GONE);
+        }
+    }
+
+    public View getMainBoard(){
+        return mainboard;
     }
 
     @Override

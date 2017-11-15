@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.twan.swipebacklayout.app.SwipeBackActivity;
+import com.twan.zuyou.ui.MainActivity;
+import butterknife.ButterKnife;
 
-import org.xutils.x;
 
 
-/**
- * Created by wyouflf on 15/11/4.
- */
 public abstract class BaseActivity extends SwipeBackActivity {
     protected Toolbar mToolbar;
     protected Activity mContext;
@@ -19,7 +17,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        x.view().inject(this);
+        ButterKnife.bind(this);
         mContext = this;
         App.getInstance().addActivity(this);
         initEventAndData();

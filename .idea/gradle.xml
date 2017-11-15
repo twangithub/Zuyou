@@ -10,8 +10,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bottom-bar" />
+            <option value="$PROJECT_DIR$/mylibary" />
             <option value="$PROJECT_DIR$/swipebacklayout" />
-            <option value="$PROJECT_DIR$/xutils" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -7,8 +7,6 @@ import android.content.pm.PackageManager;
 import com.twan.zuyou.util.LogUtil;
 import com.twan.zuyou.util.ToastUtil;
 
-import org.xutils.x;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;

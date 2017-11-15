@@ -4,12 +4,12 @@ import com.orhanobut.logger.Logger;
 import com.twan.zuyou.BuildConfig;
 
 /**
- * Created by codeest on 2016/8/3.
+ * Created by twan on 2016/8/3.
  */
 public class LogUtil {
 
     public static boolean isDebug = BuildConfig.DEBUG;
-    private static final String TAG = "com.twan.zuyou";
+    private static final String TAG = "TAG";
 
     public static void e(String tag,Object o) {
         if(isDebug) {
@@ -40,6 +40,12 @@ public class LogUtil {
     public static void i(String msg) {
         if(isDebug) {
             Logger.i(msg);
+        }
+    }
+
+    public static void wtf(String msg) {
+        if(isDebug) {
+            Logger.wtf(msg);
         }
     }
 }

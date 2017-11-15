@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="sfasfasfsd"/>
+        android:text="跳转第二页测试, 左滑可返回"/>
 
     <TextView
         android:id="@+id/tv_db_result"
