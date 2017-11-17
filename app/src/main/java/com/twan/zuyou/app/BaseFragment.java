@@ -4,16 +4,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;import com.twan.zuyou.api.Result;import butterknife.ButterKnife;
+import android.view.ViewGroup;
 
-public abstract class BaseFragment extends Fragment {
+import com.twan.mylibary.recyclerViewHelper.BaseItemDraggableAdapter;
+import com.twan.mylibary.recyclerViewHelper.callback.ItemDragAndSwipeCallback;
+import com.twan.mylibary.recyclerViewHelper.listener.OnItemClickListener;
+import com.twan.mylibary.recyclerViewHelper.listener.OnItemDragListener;
+import com.twan.zuyou.adapter.ItemDragAdapter;
+import com.twan.zuyou.api.Result;
+import com.twan.zuyou.entity.Room;
+
+import java.util.List;
+
+import butterknife.ButterKnife;
+
+public abstract class BaseFragment<T> extends Fragment {
 
     protected Activity mActivity;
     protected Context mContext;
     protected View mRootView;
-    protected Result mData;
+    protected T mData;
     /**
      * 是否对用户可见
      */
@@ -98,11 +112,30 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T extends View> T findViewById(int id){
+    protected <V extends View> V findViewById(int id){
         if (mRootView == null){
             return null;
         }
-        return (T) mRootView.findViewById(id);
+        return (V) mRootView.findViewById(id);
+    }
+
+    // 初始化recycleview
+    protected RecyclerView mRecyclerView;
+
+    protected void initRecycleView(BaseItemDraggableAdapter adapter, OnItemDragListener listener, OnItemClickListener listener2){
+        ItemTouchHelper mItemTouchHelper;
+        ItemDragAndSwipeCallback mItemDragAndSwipeCallback;
+
+        mItemDragAndSwipeCallback = new ItemDragAndSwipeCallback(adapter);
+        mItemTouchHelper = new ItemTouchHelper(mItemDragAndSwipeCallback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        adapter.enableDragItem(mItemTouchHelper);
+        adapter.setOnItemDragListener(listener);
+//        mRecyclerView.addItemDecoration(new GridItemDecoration(this ,R.drawable.list_divider));
+
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addOnItemTouchListener(listener2);
     }
 
 }

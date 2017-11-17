@@ -8,11 +8,13 @@ import com.twan.zuyou.api.Result;import com.twan.zuyou.entity.Room;import com.tw
 
 public abstract class ZyCallBack<T> implements Callback{
     protected Result<T> mResult;
+    protected T mRealData;
 
     @Override
     public void onResponse(Call call, Response response) {
         mResult =(Result<T>) response.body();
-        //LogUtil.e(mResult.toString());
+        mRealData = mResult.data;
+        LogUtil.d(response.raw().request().url() +" 请求成功 , realData = "+ mRealData);
         onResponse();
     }
 

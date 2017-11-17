@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -18,6 +17,7 @@ import android.widget.PopupWindow;
 import com.twan.mylibary.recyclerViewHelper.BaseQuickAdapter;
 import com.twan.mylibary.recyclerViewHelper.BaseViewHolder;
 import com.twan.mylibary.recyclerViewHelper.callback.ItemDragAndSwipeCallback;
+import com.twan.mylibary.recyclerViewHelper.listener.OnItemClickListener;
 import com.twan.mylibary.recyclerViewHelper.listener.OnItemDragListener;
 import com.twan.mylibary.recyclerViewHelper.listener.OnItemSwipeListener;
 import com.twan.zuyou.R;
@@ -43,10 +43,7 @@ import butterknife.BindView;
 public class RoomFragment extends BaseFragment {
 
     @BindView(R.id.rv_list) RecyclerView mRecyclerView;
-    private List<String> mData;
     private ItemDragAdapter mAdapter;
-    private ItemTouchHelper mItemTouchHelper;
-    private ItemDragAndSwipeCallback mItemDragAndSwipeCallback;
 
     @Override
     protected int getLayoutId() {
@@ -55,10 +52,9 @@ public class RoomFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));
-        mData = generateData(50);
-        OnItemDragListener listener = new OnItemDragListener() {
+        mAdapter = new ItemDragAdapter((List<Room>)mData);
+        initRecycleView(mAdapter,new OnItemDragListener() {
             @Override
             public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
                 LogUtil.d("drag start");
@@ -77,63 +73,9 @@ public class RoomFragment extends BaseFragment {
                 BaseViewHolder holder = ((BaseViewHolder) viewHolder);
 //                holder.setTextColor(R.id.tv, Color.BLACK);
             }
-        };
-        final Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setTextSize(20);
-        paint.setColor(Color.BLACK);
-        OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
+        },new OnItemClickListener() {
             @Override
-            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
-                LogUtil.d("view swiped start: " + pos);
-                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
-//                holder.setTextColor(R.id.tv, Color.WHITE);
-            }
-
-            @Override
-            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
-                LogUtil.d("View reset: " + pos);
-                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
-//                holder.setTextColor(R.id.tv, Color.BLACK);
-            }
-
-            @Override
-            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-                LogUtil.d("View Swiped: " + pos);
-            }
-
-            @Override
-            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
-                canvas.drawColor(ContextCompat.getColor(mActivity, R.color.color_light_blue));
-//                canvas.drawText("Just some text", 0, 40, paint);
-            }
-        };
-
-        mAdapter = new ItemDragAdapter(mData);
-        mItemDragAndSwipeCallback = new ItemDragAndSwipeCallback(mAdapter);
-        mItemTouchHelper = new ItemTouchHelper(mItemDragAndSwipeCallback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-
-        //mItemDragAndSwipeCallback.setDragMoveFlags(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.UP | ItemTouchHelper.DOWN);
-        mItemDragAndSwipeCallback.setSwipeMoveFlags(ItemTouchHelper.START | ItemTouchHelper.END);
-        mAdapter.enableSwipeItem();
-        mAdapter.setOnItemSwipeListener(onItemSwipeListener);
-        mAdapter.enableDragItem(mItemTouchHelper);
-        mAdapter.setOnItemDragListener(listener);
-//        mRecyclerView.addItemDecoration(new GridItemDecoration(this ,R.drawable.list_divider));
-
-        mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
-//            @Override
-//            public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-//                ToastUtils.showShortToast("点击了" + position);
-//            }
-//        });
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //ToastUtil.show("点击了" + position);
-
+            public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
                 View contentView = LayoutInflater.from(mActivity).inflate(R.layout.pop_item_click,null);
                 //处理popWindow 显示内容
                 //handleLogic(contentView);
@@ -154,6 +96,7 @@ public class RoomFragment extends BaseFragment {
         });
 
 
+
     }
 
     private List<String> generateData(int size) {
@@ -166,12 +109,12 @@ public class RoomFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle arguments) {
-//        Api.getApiService().getRooms().enqueue(new ZyCallBack<Result<List<Room>>>() {
-//            @Override
-//            public void onResponse() {
-//                ToastUtil.show("数据加载成功");
-//            }
-//        });
+        Api.getApiService().getRooms().enqueue(new ZyCallBack<Result<List<Room>>>() {
+            @Override
+            public void onResponse() {
+                mData = mRealData;
+            }
+        });
 
     }
 
