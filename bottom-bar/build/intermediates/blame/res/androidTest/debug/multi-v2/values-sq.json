@@ -4,7 +4,7 @@
             "outputFile": "D:\\workspace\\Zuyou\\bottom-bar\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-sq\\values-sq.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.0.0-alpha1.aar\\cb4de763f0cbda172a9bad5e4e0a893f\\res\\values-sq\\values-sq.xml",
+                    "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\3f1a21927953d9be612dc89621e2fb08\\res\\values-sq\\values-sq.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

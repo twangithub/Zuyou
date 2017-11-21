@@ -52,6 +52,7 @@ public class RoomFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
+        mBaseRecyclerView=mRecyclerView;
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));
         mAdapter = new ItemDragAdapter((List<Room>)mData);
         initRecycleView(mAdapter,new OnItemDragListener() {
@@ -95,28 +96,17 @@ public class RoomFragment extends BaseFragment {
             }
         });
 
-
-
-    }
-
-    private List<String> generateData(int size) {
-        ArrayList<String> data = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            data.add("item " + i);
-        }
-        return data;
     }
 
     @Override
-    protected void initData(Bundle arguments) {
+    protected void onLazyLoad() {
+        mAdapter.getData().clear();
         Api.getApiService().getRooms().enqueue(new ZyCallBack<Result<List<Room>>>() {
             @Override
             public void onResponse() {
                 mData = mRealData;
+                mAdapter.addData((List<Room>)mData);
             }
         });
-
     }
-
-
 }

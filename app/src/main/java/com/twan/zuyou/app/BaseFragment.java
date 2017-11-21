@@ -17,6 +17,7 @@ import com.twan.mylibary.recyclerViewHelper.listener.OnItemDragListener;
 import com.twan.zuyou.adapter.ItemDragAdapter;
 import com.twan.zuyou.api.Result;
 import com.twan.zuyou.entity.Room;
+import com.twan.zuyou.util.LogUtil;
 
 import java.util.List;
 
@@ -78,7 +79,9 @@ public abstract class BaseFragment<T> extends Fragment {
     /**
      * 执行数据的加载
      */
-    protected abstract void initData(Bundle arguments);
+    protected void initData(Bundle arguments){
+
+    };
 
     protected void setListener(){
 
@@ -120,22 +123,26 @@ public abstract class BaseFragment<T> extends Fragment {
     }
 
     // 初始化recycleview
-    protected RecyclerView mRecyclerView;
+    protected RecyclerView mBaseRecyclerView;
 
     protected void initRecycleView(BaseItemDraggableAdapter adapter, OnItemDragListener listener, OnItemClickListener listener2){
+        if (mBaseRecyclerView == null){
+            LogUtil.wtf("mRecyclerView must not be null when you invoked this method!");
+            return ;
+        }
         ItemTouchHelper mItemTouchHelper;
         ItemDragAndSwipeCallback mItemDragAndSwipeCallback;
 
         mItemDragAndSwipeCallback = new ItemDragAndSwipeCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(mItemDragAndSwipeCallback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mItemTouchHelper.attachToRecyclerView(mBaseRecyclerView);
 
         adapter.enableDragItem(mItemTouchHelper);
         adapter.setOnItemDragListener(listener);
 //        mRecyclerView.addItemDecoration(new GridItemDecoration(this ,R.drawable.list_divider));
 
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.addOnItemTouchListener(listener2);
+        mBaseRecyclerView.setAdapter(adapter);
+        mBaseRecyclerView.addOnItemTouchListener(listener2);
     }
 
 }
