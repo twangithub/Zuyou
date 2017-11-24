@@ -14,7 +14,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("./keystore/release.keystore")
+            storeFile file("D//workspace/keystore/release.keystore")
             storePassword "tuhuan"
             keyAlias "zuyou"
             keyPassword "tuhuan"
@@ -73,4 +73,8 @@ dependencies {
     compile project(path: ':bottom-bar')
     compile project(path: ':swipebacklayout')
     compile project(path: ':mylibary')
+
+}
+repositories {
+    mavenCentral()
 }
